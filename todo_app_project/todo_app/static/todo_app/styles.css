@@ -1,0 +1,29 @@
+/* TODO - CSS */
+
+body {	
+	margin: 0px;
+}
+
+.grid-container {
+	display: grid;
+	grid-template-columns: auto;
+	grid-template-rows: 150px auto;
+	min-height: 100vh;
+}
+
+.navbar {
+	padding: 10px;
+	background: lightgrey;
+}
+
+.page-content {
+	padding: 10px;
+}
+
+ul.navbar-buttons {
+	margin: 0px;
+	padding: 0px;
+}
+ul.navbar-buttons > li {
+	display: inline;
+}
