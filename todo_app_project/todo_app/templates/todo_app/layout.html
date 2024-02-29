@@ -11,13 +11,12 @@
         <div class="navbar">
                 <h1 id="app_title_navbar">Todo app</h1>
                 <ul class="navbar-buttons">
-                        <li>TODO - Button 1</li>
-                        <li>TODO - Button 2</li>
+		{% block navbar-buttons %}
+		{% endblock %}
                 </ul>
         </div>
         <div class="page-content">
 		{% block page-content %}
-                <p> TODO - Show task list </p>
 		{% endblock %}
         </div>
 

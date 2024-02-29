@@ -1,32 +1,64 @@
 # Todo app:
+
 ## Tech stack:
 * Django
 * Nginx
 * uWsgi
+
 ## Podstawowa funkcjonalność:
-* Konta użytkowników (z osobnymi zadaniami)
-* Dodawanie/Usuwanie zadań do listy
-  * Określanie terminu wykonania
+### Ogólne:
+* Konta użytkowników (z osobnymi listami zadań)
+* Przechowywanie informacji o wybranej liście zadań w sesji (cookies)
+
+### Listy zadań:
+* Model listy zadań:
+  * Nazwa listy
+  * Data utworzenia
+  * Przynależność do użytkownika/ów 
+* Przypisanie do aktualnie zalogowanego użytkownika
+
+### Zadania:
+* Model zadania:
   * Nazwa zadania
-  * Kategoria zadania
-  * Priorytet
-* Strona główna z widokiem zadań
-* Wybór dnia podglądu
-* Opcje sortowania zadań (priorytet/termin/nazwa)(rosnąco/malejąco)
-* Możliwość odznaczenia wykonanych zadań
-* Zadania po terminie np. na czerwono
+  * Czy wykonano?
+  * Przynależność do listy
+* Przypisanie do wybranej listy
+
+### Interfejs:
+* Strona główna z widokiem aktualnie wybranej listy zadań
+  * Możliwość odznaczenia wykonanych zadań
+  * Sortowanie zadań (nazwa/czy wykonano) (rosnąco/malejąco)
+* Widok wszystkich list zadań
+  * Wybór aktywnej listy z dostępnych
+* Widok tworzenia nowej listy
+  * Wpisywanie nazwy listy
 	
-## Dodatkowa funkcjonalność (opcjonalna/rozwojowa):
+## Planowana funkcjonalność (opcjonalna/rozwojowa):
+### Ogólne:
 * Potwierdzanie rejestracji użytkownika poprzez wiadomość e-mail
 * Eksportowanie danych do kalendarza google calendar / samsung
 * Przypomnienia e-mail o przekroczonych terminach wykonania zadań
-* Dodawanie/modyfikowanie własnej listy zadań
-  * Wczytać gotowy szablon listy?
-  * Nazwa listy
-  * Dzień na który dodać listę (domyślnie dzień dzisiejszy)
-  * Możliwość udostępnienia i wspólnej pracy nad listą (podanie nazwy użytkownika)
-  * Zapisać jako szablon?
+
+### Listy zadań:
+* Wczytywanie gotowych szablonów list
+* Wybór dnia na który dodać listę (domyślnie dzień dzisiejszy)
+* Możliwość udostępnienia i wspólnej pracy nad listą 
+* Zapisywanie jako szablon 
+
+### Zadania:
+* Określanie terminu wykonania
+* Kategoria zadania
+* Priorytet
+
+### Interfejs:
+* Rozbudowa sortowania zadań uwzględniając nowe dane (termin wykonania, kategoria, priorytet)
+* Wyszczególnienie zadań po terminie (np. czerwony kolor?)
 * Podgląd udostępnionych list zadań
   * Pokazuje wszystkie udostepnione listy zadań
   * Wejście w daną listę ładuje jej podgląd
-		
+
+## UI design:
+### Pierwsze szkice:
+![design 1 colorscheme 1](ui_designs/design_1_colors_1.png)
+
+![design 1 colorscheme 2](ui_designs/design_1_colors_2.png)	
