@@ -1,11 +1,11 @@
-# Todo app:
+# Todo app (w rozwoju):
 
 ## Tech stack:
 * Django
 * Nginx
 * uWsgi
 
-## Podstawowa funkcjonalność:
+## Podstawowa funkcjonalność (w rozwoju):
 ### Ogólne:
 * Konta użytkowników (z osobnymi listami zadań)
 * Przechowywanie informacji o wybranej liście zadań w sesji (cookies)

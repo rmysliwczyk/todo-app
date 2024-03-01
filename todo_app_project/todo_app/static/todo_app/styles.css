@@ -24,6 +24,15 @@ ul.navbar-buttons {
 	margin: 0px;
 	padding: 0px;
 }
-ul.navbar-buttons > li {
+
+ul.navbar-buttons li {
 	display: inline;
+}
+
+ul.tasks-and-tasklists input[type=submit] {
+	background: none;
+	border: none;
+	display: inline-block;
+	text-decoration: underline;
+	cursor: pointer;
 }

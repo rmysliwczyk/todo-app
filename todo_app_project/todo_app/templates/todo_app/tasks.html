@@ -10,7 +10,17 @@
 
 {% block page-content %}
 
-<p> TODO - Show task list</p>
+<ul class="tasks-and-tasklists">
+{% for task in tasks %}
+        <li>
+        <form action="{% url 'todo_app:tasks' %}" method="POST">
+                {% csrf_token %}
+		<!-- TODO: Implement submiting form on checkbox change and send the value to the view -->
+                <input type="checkbox">{{ task.name }}</input>
+        </form>
+        </li>
+{% endfor %}
+</ul>
 
 {% endblock %}
 

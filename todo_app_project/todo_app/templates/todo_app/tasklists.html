@@ -1,0 +1,26 @@
+{% extends "todo_app/layout.html" %}
+
+{% block navbar-buttons %}
+
+<li>TODO - Button 1</li>
+<li>TODO - Button 2</li>
+
+{% endblock %}
+
+
+{% block page-content %}
+
+<ul class="tasks-and-tasklists">
+{% for tasklist in tasklists %}
+	<li>
+	<form action="{% url 'todo_app:tasklists' %}" method="POST">
+		{% csrf_token %}
+		<input type="hidden" name="selected_tasklist_id" value="{{ tasklist.id }}">
+		<input type="submit" value="{{ tasklist.name }}">
+	</form>
+	</li>
+{% endfor %}
+</ul>
+
+{% endblock %}
+
