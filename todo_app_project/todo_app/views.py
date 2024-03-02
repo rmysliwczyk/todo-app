@@ -1,9 +1,18 @@
 from django.shortcuts import render, reverse, redirect
 from .models import TaskList, Task
+from django.forms import ModelForm, modelformset_factory
+
+# Django Forms
 
 # Create your views here.
 
 def tasks(request):
+	# This form submitted when checkbox next to a task has changed value
+	if request.POST:
+		task = Task.objects.get(id=request.POST["changed_task_id"])
+		task.done = request.POST["changed_task_new_value"]
+		task.save()
+
 	# If no tasklist selected, nothing to show, so redirect to tasklist selection 
 	if "selected_tasklist_id" not in request.session or request.session["selected_tasklist_id"] == None:
 		return redirect(reverse("todo_app:tasklists"))

@@ -36,3 +36,7 @@ ul.tasks-and-tasklists input[type=submit] {
 	text-decoration: underline;
 	cursor: pointer;
 }
+
+ul.tasks-and-tasklists li {
+	list-style-type: none;
+}

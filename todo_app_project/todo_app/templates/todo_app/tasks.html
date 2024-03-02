@@ -2,8 +2,7 @@
 
 {% block navbar-buttons %}
 
-<li>TODO - Button 1</li>
-<li>TODO - Button 2</li>
+<li><a href="{% url 'todo_app:tasklists' %}">Lists</a></li>
 
 {% endblock %}
 
@@ -15,8 +14,20 @@
         <li>
         <form action="{% url 'todo_app:tasks' %}" method="POST">
                 {% csrf_token %}
-		<!-- TODO: Implement submiting form on checkbox change and send the value to the view -->
-                <input type="checkbox">{{ task.name }}</input>
+		<!-- Input type=checkbox sends value ONLY when changing from off to on state.
+		To send value when change occurs from on to off state, we use additional hidden inputs 
+		and treat checkboxes as if they were submit buttons. The initial task.done value determines hidden input value -->
+		
+		<input type="hidden" name="changed_task_id" value="{{ task.id }}">
+		{% if task.done %}
+			<!-- The task is 'done' so we 'un-do' it (we are sending False, because it was True)-->
+			<input type="hidden" name="changed_task_new_value" value="False">
+			<input type="checkbox" checked onChange="this.form.submit()">{{ task.name }}</input>
+		{% else %}
+			<!-- The task is 'not done' so we make it 'done' (we are sending True, because it was False)-->
+			<input type="hidden" name="changed_task_new_value" value="True">
+			<input type="checkbox" onChange="this.form.submit()">{{ task.name }}</input>
+		{% endif %}
         </form>
         </li>
 {% endfor %}
