@@ -32,6 +32,8 @@
   * Wybór aktywnej listy z dostępnych
 * Widok tworzenia nowej listy
   * Wpisywanie nazwy listy
+* Widok tworzenia nowego zadania
+  * Wpisywanie nazwy zadania
 	
 ## Planowana funkcjonalność (opcjonalna/rozwojowa):
 ### Ogólne:

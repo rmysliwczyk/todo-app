@@ -8,7 +8,7 @@ from django.forms import ModelForm, modelformset_factory
 
 def tasks(request):
 	# This form submitted when checkbox next to a task has changed value
-	if request.POST:
+	if request.method == "POST":
 		task = Task.objects.get(id=request.POST["changed_task_id"])
 		task.done = request.POST["changed_task_new_value"]
 		task.save()
@@ -29,7 +29,7 @@ def tasklists(request):
 		request.session["selected_tasklist_id"] = None	
 
 	# If we select a task list from the list this will be true. So not true on first entry.
-	if request.POST:
+	if request.method == "POST":
 		# Set the active tasklist
 		request.session["selected_tasklist_id"] = request.POST["selected_tasklist_id"]
 		# Redirect to see tasks inside tasklist

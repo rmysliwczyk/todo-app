@@ -15,8 +15,7 @@
 	<form action="{% url 'todo_app:tasklists' %}" id="tasklists_form" method="POST">
 		{% csrf_token %}
 		<input type="hidden" name="selected_tasklist_id" value="{{ tasklist.id }}">
-		<!-- the javascript below is because i want to use <a> tag instead of submit button to submit form -->
-		<a href=# onclick="document.getElementById('tasklists_form').submit()">{{ tasklist.name }}</a>
+		<input type="submit" value="{{ tasklist.name }}">
 	</form>
 	</li>
 {% endfor %}
