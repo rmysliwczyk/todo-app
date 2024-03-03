@@ -1,0 +1,26 @@
+{% extends "registration/layout.html" %}
+
+{% block page-content %}
+
+<form method="POST">
+	{% csrf_token %}
+	<ul class="authentication-form">
+		{% if form.errors %}
+			{% for field, errors in form.errors.items %}
+				{% for error in errors %}
+					<li>{{ error }}</li>
+				{% endfor %}
+			{% endfor %}
+		{% endif %}
+		<br>
+		{% for field in form %}
+			<li>{{ field.help_text }}</li>
+			<li>{{ field.error_message }}</li>
+			<li>{{ field.label }} {{ field }}</li>
+			</br>
+		{% endfor %}
+		<li><input type="submit" value="Create user"></li>
+	</ul>
+</form>
+
+{% endblock %}

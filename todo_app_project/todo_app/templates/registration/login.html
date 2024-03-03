@@ -1,0 +1,26 @@
+{% extends "registration/layout.html" %}
+
+{% block page-content %}
+
+<form method="POST">
+	{% csrf_token %}
+	<ul>
+		{% if form.errors %}
+		{% for field, errors in form.errors.items %}
+			{% for error in errors %}
+				<li>{{ error }}</li>
+			{% endfor %}
+		{% endfor %}
+		<br>
+		{% endif %}
+		<li>{{ form.username.label }}</li>
+		<li>{{ form.username }}</li>
+		<li>{{ form.password.label }}</li>
+		<li>{{ form.password }}</li>
+		<li><input type="submit" value="Login"></li>
+		<li><a href="{% url 'register_user' %}">Create new user</a></li>
+	</ul>
+
+</form>
+
+{% endblock %}

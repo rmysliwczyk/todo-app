@@ -1,14 +1,6 @@
 {% extends "todo_app/layout.html" %}
-
-{% block navbar-buttons %}
-
-<li><a href="{% url 'todo_app:tasklists' %}">Tasklists</a></li>
-<li><a href="{% url 'todo_app:tasks' %}">Tasks</a></li>
-
-{% endblock %}
-
-
 {% block page-content %}
+
 <form method="POST">
 	{% csrf_token %}
 	{{ tasklist_form }}

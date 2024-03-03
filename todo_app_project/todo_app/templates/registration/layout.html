@@ -10,14 +10,7 @@
 <div class="grid-container">
         <div class="navbar">
                 <h1 id="app_title_navbar">Todo app</h1>
-                <ul class="navbar-buttons">
-			<li><a href="{% url 'todo_app:tasklists' %}">Tasklist</a></li>
-			<li><a href="{% url 'todo_app:tasks' %}">Tasks</a></li>
-			<li><a href="{% url 'todo_app:tasklists_new' %}">New tasklist</a></li>
-			<li><a href="{% url 'todo_app:tasks_new' %}">New task</a></li>
-			<li><a href="{% url 'logout' %}">Logout</a></li>
-                </ul>
-        </div>
+	</div>
         <div class="page-content">
 		{% block page-content %}
 		{% endblock %}
