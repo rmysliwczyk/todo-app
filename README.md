@@ -30,10 +30,12 @@
   * Sortowanie zadań (nazwa/czy wykonano) (rosnąco/malejąco)
 * Widok wszystkich list zadań
   * Wybór aktywnej listy z dostępnych
+  * Usuwanie listy po wejściu w tryb usuwania
 * Widok tworzenia nowej listy
   * Wpisywanie nazwy listy
 * Widok tworzenia nowego zadania
   * Wpisywanie nazwy zadania
+  * Usuwanie zadania po wejściu w tryb usuwania
 	
 ## Planowana funkcjonalność (opcjonalna/rozwojowa):
 ### Ogólne:

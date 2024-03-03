@@ -1,8 +1,19 @@
 from django.shortcuts import render, reverse, redirect
 from .models import TaskList, Task
-from django.forms import ModelForm, modelformset_factory
+from django.contrib.auth.models import User
+from django.forms import ModelForm
 
 # Django Forms
+
+class TaskListForm(ModelForm):
+	class Meta:
+		model = TaskList
+		fields = {"name"}
+
+class TaskForm(ModelForm):
+	class Meta:
+		model = Task
+		fields = {"name"}
 
 # Create your views here.
 
@@ -23,6 +34,21 @@ def tasks(request):
 	# Pass on all of the tasks to the template
 	return render(request, "todo_app/tasks.html", {"tasks":tasks})
 
+def tasks_new(request):
+	if request.method == "POST":
+		# Get submitted task data 
+		form = TaskForm(request.POST)
+		if form.is_valid():
+			new_task = form.save(commit=False)
+			new_task.tasklist = TaskList.objects.get(id=request.session["selected_tasklist_id"])
+			new_task.save()
+			return redirect(reverse("todo_app:tasks"))
+		else:
+			# Pass the form again including error message
+			return render(request, "todo_app/tasks_new.html", {"task_form":form})
+	# Pass the form for the first time
+	return render(request, "todo_app/tasks_new.html", {"task_form":TaskForm()})
+
 def tasklists(request):
 	# If there is no selected list yet, make room for one. 
 	if "selected_tasklist_id" not in request.session:
@@ -41,3 +67,20 @@ def tasklists(request):
 	
 	# Pass on all of the gathered task lists to the template
 	return render(request, "todo_app/tasklists.html", {"tasklists":tasklists})
+
+
+def tasklists_new(request):
+	if request.method == "POST":
+		# Get submitted form data
+		form = TaskListForm(request.POST)
+		if form.is_valid():
+			new_tasklist = form.save(commit=False)
+			new_tasklist.user = request.user	
+			new_tasklist.save()
+			return redirect(reverse("todo_app:tasklists"))
+		else:
+			# Pass the form again including error message
+			return render(request, "todo_app/tasklists_new.html", {"tasklist_form":form})
+	# Pass the form for the first time
+	return render(request, "todo_app/tasklists_new.html", {"tasklist_form":TaskListForm()})
+
