@@ -62,7 +62,7 @@ def tasks(request):
 def tasks_new(request):
 	# Make sure that there is an active tasklist
 	if "selected_tasklist_id" not in request.session or request.session["selected_tasklist_id"] == None:
-		return redirect("todo_app:error_message", message="First select a tasklist")
+		return redirect(reverse("todo_app:error_message"), message="First select a tasklist")
 
 	if request.method == "POST":
 		# Get submitted task data 

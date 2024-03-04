@@ -18,8 +18,6 @@ from django.urls import include, path
 from todo_app import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('todo_app/admin/', admin.site.urls),
     path("todo_app/", include("todo_app.urls")),
-	path("accounts/", include("django.contrib.auth.urls")),
-	path("accounts/register_user", views.register_user, name="register_user")
 ]

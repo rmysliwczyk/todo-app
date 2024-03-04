@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 from django.shortcuts import reverse
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -27,7 +27,6 @@ SECRET_KEY = 'django-insecure-a5vr9@-t8s)jhfv07zw2a&%lmq4!ivv)f=8--6&r_wvn$_9+%m
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -126,5 +125,7 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+LOGIN_URL='/todo_app/accounts/login'
 LOGIN_REDIRECT_URL = '/todo_app/'
-LOGOUT_REDIRECT_URL = '/accounts/login'
+LOGOUT_REDIRECT_URL = '/todo_app/accounts/login'
+STATIC_ROOT = os.path.join(BASE_DIR, "static/")

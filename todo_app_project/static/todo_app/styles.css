@@ -1,0 +1,70 @@
+/* TODO - CSS */
+
+body {	
+	margin: 0px;
+	font-family: sans-serif;
+	background-color: #FBF9F1;
+}
+
+.grid-container {
+	display: grid;
+	grid-template-columns: auto;
+	grid-template-rows: 150px auto;
+	min-height: 100vh;
+}
+
+#app_title_navbar {
+	margin-top: 40px;
+	color: #FBF9F1;
+	margin-left: 20px;
+}
+
+.navbar {
+	padding: 10px;
+	background: #92C7CF;
+}
+
+.page-content {
+	padding: 10px;
+}
+
+ul {
+	margin: 0px;
+	padding: 0px;
+}
+
+li {
+	list-style-type: none;
+}
+
+.navbar-buttons li {
+	display: inline;
+	margin-left: 20px;
+}
+
+.navbar-buttons a {
+	padding: 10px;
+	background-color: #AAD7D9;
+	color: #FBF9F1;
+	text-decoration: none;
+}
+
+.tasks-and-tasklists {
+	color: #92C7CF;
+}
+
+.tasks-and-tasklists li{
+	margin-top: 20px;
+	margin-left: 20px;
+}
+
+.tasks-and-tasklists input[type=submit] {
+	background: none;
+	padding: 0px;
+	border: none;
+	color: #92C7CF;
+	text-decoration: none;
+	cursor: pointer;
+	font-size: 1em;
+	font-family: inherit;	
+}
