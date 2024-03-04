@@ -25,6 +25,7 @@
 * Przypisanie do wybranej listy
 
 ### Interfejs:
+* Informacja o aktualnie wybranej liście zadań
 * Strona główna z widokiem aktualnie wybranej listy zadań
   * Możliwość odznaczenia wykonanych zadań
   * Sortowanie zadań (nazwa/czy wykonano) (rosnąco/malejąco)

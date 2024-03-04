@@ -49,20 +49,20 @@ def tasks(request):
 
 	# If no tasklist selected, nothing to show, so redirect to tasklist selection 
 	if "selected_tasklist_id" not in request.session or request.session["selected_tasklist_id"] == None:
-		return redirect(reverse("todo_app:tasklists"), error_message="First select a tasklis")
+		return redirect(reverse("todo_app:tasklists"), error_message="First select a tasklist")
 
 	# Get all of the tasks belonging to the selected tasklist
 	tasks = Task.objects.filter(tasklist=TaskList.objects.get(id=request.session["selected_tasklist_id"]))
 
 	# Pass on all of the tasks to the template
-	return render(request, "todo_app/tasks.html", {"tasks":tasks})
+	return render(request, "todo_app/tasks.html", {"tasks":tasks, "selected_tasklist":get_selected_tasklist(request)})
 
 
 @login_required 
 def tasks_new(request):
 	# Make sure that there is an active tasklist
 	if "selected_tasklist_id" not in request.session or request.session["selected_tasklist_id"] == None:
-		return redirect(reverse("todo_app:error_message"), message="First select a tasklist")
+		return redirect("todo_app:error_message", message="First select a tasklist")
 
 	if request.method == "POST":
 		# Get submitted task data 
@@ -74,9 +74,9 @@ def tasks_new(request):
 			return redirect(reverse("todo_app:tasks"))
 		else:
 			# Pass the form again including error message
-			return render(request, "todo_app/tasks_new.html", {"task_form":form})
+			return render(request, "todo_app/tasks_new.html", {"task_form":form, "selected_tasklist":get_selected_tasklist(request)})
 	# Pass the form for the first time
-	return render(request, "todo_app/tasks_new.html", {"task_form":TaskForm()})
+	return render(request, "todo_app/tasks_new.html", {"task_form":TaskForm(), "selected_tasklist":get_selected_tasklist(request)})
 
 
 @login_required
@@ -97,7 +97,7 @@ def tasklists(request):
 	tasklists = TaskList.objects.filter(user=this_user.id)
 	
 	# Pass on all of the gathered task lists to the template
-	return render(request, "todo_app/tasklists.html", {"tasklists":tasklists})
+	return render(request, "todo_app/tasklists.html", {"tasklists":tasklists, "selected_tasklist":get_selected_tasklist(request)})
 
 
 @login_required
@@ -110,10 +110,19 @@ def tasklists_new(request):
 			new_tasklist.user = request.user	
 			new_tasklist.save()
 			request.session["selected_tasklist_id"] = new_tasklist.id
-			return redirect(reverse("todo_app:tasklists"))
+			return redirect(reverse("todo_app:tasks"))
 		else:
 			# Pass the form again including error message
-			return render(request, "todo_app/tasklists_new.html", {"tasklist_form":form})
+			return render(request, "todo_app/tasklists_new.html", {"tasklist_form":form, "selected_tasklist":get_selected_tasklist(request)})
 	# Pass the form for the first time
-	return render(request, "todo_app/tasklists_new.html", {"tasklist_form":TaskListForm()})
+	return render(request, "todo_app/tasklists_new.html", {"tasklist_form":TaskListForm(), "selected_tasklist":get_selected_tasklist(request)})
+
+
+# Helper functions
+
+def get_selected_tasklist(request):
+	if "selected_tasklist_id" not in request.session or request.session["selected_tasklist_id"] == None:
+		return None
+	else:
+		return TaskList.objects.get(id=request.session["selected_tasklist_id"])
 

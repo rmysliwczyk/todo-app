@@ -14,11 +14,13 @@
 		{% if task.done %}
 			<!-- The task is 'done' so we 'un-do' it (we are sending False, because it was True)-->
 			<input type="hidden" name="changed_task_new_value" value="False">
-			<input type="checkbox" checked onChange="this.form.submit()">{{ task.name }}</input>
+			<input type="checkbox" id="task" checked onChange="this.form.submit()">
+			<label for="id_task" class="task-done">{{ task.name }}</label>
 		{% else %}
 			<!-- The task is 'not done' so we make it 'done' (we are sending True, because it was False)-->
 			<input type="hidden" name="changed_task_new_value" value="True">
-			<input type="checkbox" onChange="this.form.submit()">{{ task.name }}</input>
+			<input type="checkbox" id="id_task" onChange="this.form.submit()">
+			<label for="id_task" class="task">{{ task.name }}</label>
 		{% endif %}
         </form>
         </li>

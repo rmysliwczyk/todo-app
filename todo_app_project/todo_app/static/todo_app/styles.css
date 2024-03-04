@@ -14,9 +14,10 @@ body {
 }
 
 #app_title_navbar {
-	margin-top: 40px;
+	margin-top: 18px;
+	margin-bottom: 5px;
 	color: #FBF9F1;
-	margin-left: 20px;
+	margin-left: 10px;
 }
 
 .navbar {
@@ -37,25 +38,39 @@ li {
 	list-style-type: none;
 }
 
+ul.navbar-buttons {
+	margin-top: 15px;	
+}
+
 .navbar-buttons li {
-	display: inline;
-	margin-left: 20px;
+	display: inline-block;
+	margin-left: 1px;
 }
 
 .navbar-buttons a {
-	padding: 10px;
+	padding: 5px;
 	background-color: #AAD7D9;
 	color: #FBF9F1;
 	text-decoration: none;
 }
 
-.tasks-and-tasklists {
+.selected-tasklist-info {
+	width: fit-content;
+	background-color: #92C7CF;
+	color: #FBF9F1;
+	padding: 5px;
+}
+
+
+ul.tasks-and-tasklists {
 	color: #92C7CF;
 }
 
-.tasks-and-tasklists li{
+.tasks-and-tasklists li {
+	list-style-type: disclosure-closed;
 	margin-top: 20px;
-	margin-left: 20px;
+	margin-left: 5px;
+	font-size: 1.1em;
 }
 
 .tasks-and-tasklists input[type=submit] {
@@ -67,4 +82,43 @@ li {
 	cursor: pointer;
 	font-size: 1em;
 	font-family: inherit;	
+}
+
+.task {
+
+}
+
+.task-done {
+	text-decoration: line-through;
+}
+
+ul.authentication-form {
+	color: #92C7CF;
+}
+
+.authentication-form li {
+	margin-top: 5px;
+}
+
+ul.generic-form {
+	color: #92C7CF;
+}
+
+.generic-form li {
+	margin-top: 5px;
+}
+
+input[type=submit] {
+	margin-top: 5px;
+	padding: 5px;
+	color: #FBF9F1;
+	font-size: 1.2em;
+	background-color: #AAD7D9;
+	border-style: none;
+}
+
+.footer {
+	color: #92C7CF;
+	position: absolute;
+	bottom: 0px;
 }

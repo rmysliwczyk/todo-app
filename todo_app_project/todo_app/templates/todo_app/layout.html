@@ -13,14 +13,27 @@
                 <ul class="navbar-buttons">
 			<li><a href="{% url 'todo_app:tasklists' %}">Tasklist</a></li>
 			<li><a href="{% url 'todo_app:tasks' %}">Tasks</a></li>
+			<li><a href="{% url 'todo_app:logout' %}">Logout</a></li>
+		</ul>
+		<ul class="navbar-buttons">
 			<li><a href="{% url 'todo_app:tasklists_new' %}">New tasklist</a></li>
 			<li><a href="{% url 'todo_app:tasks_new' %}">New task</a></li>
-			<li><a href="{% url 'todo_app:logout' %}">Logout</a></li>
                 </ul>
         </div>
         <div class="page-content">
+		<div class="selected-tasklist-info">
+			{% if selected_tasklist %}
+				Selected tasklist: {{selected_tasklist.name}}
+			{% else %}
+				No selected tasklist. Please select or create one.
+			{% endif %}
+		</div>
+		
 		{% block page-content %}
 		{% endblock %}
+		<div class="footer">
+			<p>Rafał Myśliwczyk: <a href="https://github.com/rmysliwczyk">Github</a></p>
+		</div>
         </div>
 
 </body>

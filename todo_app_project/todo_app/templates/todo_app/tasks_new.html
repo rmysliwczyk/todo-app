@@ -3,8 +3,18 @@
 
 <form method="POST">
 	{% csrf_token %}
-	{{ task_form }}
-	<input type="submit">
+	<ul class="generic-form">
+		{% if task_form.errors %}
+			{% for field, errors in task_form.errors.items %}
+				{% for error in errors %}
+					<li>{{ error }}</li>
+				{% endfor %}
+			{% endfor %}
+		{% endif %}
+		<li><label for="id_name">Task name:</label></li>
+		<li>{{ task_form.name }}</li>
+		<li><input type="submit" value="Add task"></li>
+	</ul>
 </form>
 
 {% endblock %}
