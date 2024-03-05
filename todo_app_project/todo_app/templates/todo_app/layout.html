@@ -11,13 +11,13 @@
         <div class="navbar">
                 <h1 id="app_title_navbar">Todo app</h1>
                 <ul class="navbar-buttons">
-			<li><a href="{% url 'todo_app:tasklists' %}">Tasklist</a></li>
-			<li><a href="{% url 'todo_app:tasks' %}">Tasks</a></li>
-			<li><a href="{% url 'todo_app:logout' %}">Logout</a></li>
+			<li><a class="button" href="{% url 'todo_app:tasklists' %}">Tasklist</a></li>
+			<li><a class="button" href="{% url 'todo_app:tasks' %}">Tasks</a></li>
+			<li><a class="button" href="{% url 'todo_app:logout' %}">Logout</a></li>
 		</ul>
 		<ul class="navbar-buttons">
-			<li><a href="{% url 'todo_app:tasklists_new' %}">New tasklist</a></li>
-			<li><a href="{% url 'todo_app:tasks_new' %}">New task</a></li>
+			<li><a class="button" href="{% url 'todo_app:tasklists_new' %}">New tasklist</a></li>
+			<li><a class="button" href="{% url 'todo_app:tasks_new' %}">New task</a></li>
                 </ul>
         </div>
         <div class="page-content">
@@ -31,11 +31,10 @@
 		
 		{% block page-content %}
 		{% endblock %}
-		<div class="footer">
-			<p>Rafał Myśliwczyk: <a href="https://github.com/rmysliwczyk">Github</a></p>
-		</div>
         </div>
-
+	<div class="footer">
+		Rafał Myśliwczyk: <a href="https://github.com/rmysliwczyk">Github</a>
+	</div>
 </body>
 </html>
 
