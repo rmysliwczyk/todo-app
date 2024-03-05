@@ -41,21 +41,24 @@ def error_message(request, message):
 
 @login_required
 def tasks(request):
+	# Default is noe edit mode
+	request.session["edit_mode"] = False;
+
 	# This form submitted when checkbox next to a task has changed value
 	if request.method == "POST":
 		task = Task.objects.get(id=request.POST["changed_task_id"])
 		task.done = request.POST["changed_task_new_value"]
 		task.save()
-
+	if "edit_mode" in request.GET and request.GET["edit_mode"] == "on":
+		request.session["edit_mode"] = True;
 	# If no tasklist selected, nothing to show, so redirect to tasklist selection 
 	if "selected_tasklist_id" not in request.session or request.session["selected_tasklist_id"] == None:
 		return redirect(reverse("todo_app:tasklists"), error_message="First select a tasklist")
 
 	# Get all of the tasks belonging to the selected tasklist
 	tasks = Task.objects.filter(tasklist=TaskList.objects.get(id=request.session["selected_tasklist_id"]))
-
 	# Pass on all of the tasks to the template
-	return render(request, "todo_app/tasks.html", {"tasks":tasks, "selected_tasklist":get_selected_tasklist(request)})
+	return render(request, "todo_app/tasks.html", {"tasks":tasks, "selected_tasklist":get_selected_tasklist(request), "edit_mode":request.session["edit_mode"]})
 
 
 @login_required 

@@ -13,5 +13,12 @@
 {% endfor %}
 </ul>
 
+{% if selected_tasklist %}
+	<form method="GET">
+		<input type="hidden" name="edit_mode" value="on">
+		<button type="submit" class="edit-mode-button"><i class="fa-regular fa-pen-to-square fa-xl"></i></input>
+	</form>
+{% endif %}
+
 {% endblock %}
 

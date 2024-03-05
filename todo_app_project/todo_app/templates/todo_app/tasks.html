@@ -23,9 +23,25 @@
 			<label for="id_task" class="task">{{ task.name }}</label>
 		{% endif %}
         </form>
+	{% if edit_mode %}
+	<form action="{% url 'todo_app:tasks' %}" name="remove" method="POST">
+		{% csrf_token %}
+		<input type="hidden" name="task_id" value="{{ task.id }}">
+		<button type="submit" class="remove-button"><i class="fa-solid fa-xmark"></i></button>
+	</form>
+	{% endif %}
         </li>
 {% endfor %}
 </ul>
+
+{% if selected_tasklist.tasks.exists %}
+	<form method="GET">
+		<input type="hidden" name="edit_mode" value="on">
+		<button type="submit" class="edit-mode-button"><i class="fa-regular fa-pen-to-square fa-xl"></i></input>
+	</form>
+{% else %}
+	<p> No tasks. Add one using "New task" button. </p>
+{% endif %}
 
 {% endblock %}
 

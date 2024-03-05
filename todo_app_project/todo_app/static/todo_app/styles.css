@@ -56,14 +56,6 @@ a:active {
 	color: #27374D;
 }
 
-a.button {
-	color: #FBF9F1;
-}
-
-a.button:hover {
-	color: #27374D;
-}
-
 ul.navbar-buttons {
 	margin-top: 15px;	
 }
@@ -73,11 +65,54 @@ ul.navbar-buttons {
 	margin-left: 1px;
 }
 
+.navbar-buttons .button {
+	color: #DDE6ED;
+}
+
 .button {
 	background-color: #526D82;
 	color: #FBF9F1;
 	text-decoration: none;
 	padding: 5px;
+}
+
+.button:hover {
+	color: #27374D;
+	cursor: pointer;
+}
+
+.edit-mode-button {
+	background: none;
+	color: #526D82;
+	display: inline;
+	border: none;
+	cursor: pointer;
+
+	/* Makes it so only the icon is clickable */
+	margin-top: 20px;
+	width: 0px;
+	height: 0px;
+}
+
+.edit-mode-button:hover {
+	color: #27374D;
+}
+
+.remove-button {
+	background: none;
+	color: #526D82;
+	display: inline;
+	border: none;
+	cursor: pointer;
+
+	/* Makes it so only the icon is clickable */
+	margin-top: 20px;
+	width: 0px;
+	height: 0px;
+}
+
+.remove-button:hover {
+	color: #27374D;
 }
 
 .selected-tasklist-info {
