@@ -9,13 +9,6 @@
 		<input type="hidden" name="selected_tasklist_id" value="{{ tasklist.id }}">
 		<input type="submit" value="{{ tasklist.name }}">
 	</form>
-		{% if edit_mode %}
-		<form action="{% url 'todo_app:tasklists' %}" method="POST">
-			{% csrf_token %}
-			<input type="hidden" name="tasklist_id" value="{{ tasklist.id }}">
-			<button type="submit" class="remove-button" name="remove_form"><i class="fa-solid fa-xmark"></i></button>
-		</form>
-	{% endif %}
 	</li>
 {% endfor %}
 </ul>

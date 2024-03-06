@@ -11,6 +11,7 @@
 		and treat checkboxes as if they were submit buttons. The initial task.done value determines hidden input value -->
 		
 		<input type="hidden" name="changed_task_id" value="{{ task.id }}">
+		<input type="hidden" name="change_form">	
 		{% if task.done %}
 			<!-- The task is 'done' so we 'un-do' it (we are sending False, because it was True)-->
 			<input type="hidden" name="changed_task_new_value" value="False">
@@ -24,10 +25,10 @@
 		{% endif %}
         </form>
 	{% if edit_mode %}
-	<form action="{% url 'todo_app:tasks' %}" name="remove" method="POST">
+	<form action="{% url 'todo_app:tasks' %}" method="POST">
 		{% csrf_token %}
 		<input type="hidden" name="task_id" value="{{ task.id }}">
-		<button type="submit" class="remove-button"><i class="fa-solid fa-xmark"></i></button>
+		<button type="submit" class="remove-button" name="remove_form"><i class="fa-solid fa-xmark"></i></button>
 	</form>
 	{% endif %}
         </li>

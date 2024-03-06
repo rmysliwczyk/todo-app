@@ -17,7 +17,7 @@ body {
 
 #app_title_navbar {
 	color: #DDE6ED;
-	margin-top: 18px;
+	margin-top: 9px;
 	margin-bottom: 5px;
 	margin-left: 10px;
 }
@@ -71,7 +71,7 @@ ul.navbar-buttons {
 
 .button {
 	background-color: #526D82;
-	color: #FBF9F1;
+	color: #DDE6ED;
 	text-decoration: none;
 	padding: 5px;
 }
@@ -171,6 +171,10 @@ input[type=submit] {
 	font-size: 1.1em;
 	border-style: none;
 	margin-top: 5px;
+}
+
+form {
+	display: inline-block;
 }
 
 .footer {

@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
+from django.core.exceptions import ObjectDoesNotExist
 from django.forms import ModelForm
 
 # Django Forms
@@ -41,14 +42,18 @@ def error_message(request, message):
 
 @login_required
 def tasks(request):
-	# Default is noe edit mode
+	# Default is not edit mode
 	request.session["edit_mode"] = False;
 
 	# This form submitted when checkbox next to a task has changed value
 	if request.method == "POST":
-		task = Task.objects.get(id=request.POST["changed_task_id"])
-		task.done = request.POST["changed_task_new_value"]
-		task.save()
+		if "remove_form" in request.POST:
+			task_to_remove = Task.objects.get(id=request.POST["task_id"])
+			task_to_remove.delete()
+		elif "change_form" in request.POST:
+			task = Task.objects.get(id=request.POST["changed_task_id"])
+			task.done = request.POST["changed_task_new_value"]
+			task.save()
 	if "edit_mode" in request.GET and request.GET["edit_mode"] == "on":
 		request.session["edit_mode"] = True;
 	# If no tasklist selected, nothing to show, so redirect to tasklist selection 
@@ -56,7 +61,7 @@ def tasks(request):
 		return redirect(reverse("todo_app:tasklists"), error_message="First select a tasklist")
 
 	# Get all of the tasks belonging to the selected tasklist
-	tasks = Task.objects.filter(tasklist=TaskList.objects.get(id=request.session["selected_tasklist_id"]))
+	tasks = Task.objects.filter(tasklist=get_selected_tasklist(request))
 	# Pass on all of the tasks to the template
 	return render(request, "todo_app/tasks.html", {"tasks":tasks, "selected_tasklist":get_selected_tasklist(request), "edit_mode":request.session["edit_mode"]})
 
@@ -84,23 +89,34 @@ def tasks_new(request):
 
 @login_required
 def tasklists(request):
+	#Default is not edit mode
+	request.session["edit_mode"] = False
+
 	# If there is no selected list yet, make room for one. 
 	if "selected_tasklist_id" not in request.session:
 		request.session["selected_tasklist_id"] = None	
 
-	# If we select a task list from the list this will be true. So not true on first entry.
+	# If we select a task list from the list or remove one this will be true. So not true on first entry.
 	if request.method == "POST":
-		# Set the active tasklist
-		request.session["selected_tasklist_id"] = request.POST["selected_tasklist_id"]
-		# Redirect to see tasks inside tasklist
-		return redirect(reverse("todo_app:tasks"))	
+		if "remove_form" in request.POST:
+			tasklist_to_remove = TaskList.objects.get(id=request.POST["tasklist_id"])
+			tasklist_to_remove.delete()
+		else:
+			print("Here?")
+			# Set the active tasklist
+			request.session["selected_tasklist_id"] = request.POST["selected_tasklist_id"]
+			# Redirect to see tasks inside tasklist
+			return redirect(reverse("todo_app:tasks"))	
+
+	if "edit_mode" in request.GET and request.GET["edit_mode"] == "on":
+		request.session["edit_mode"] = True;
 
 	# Identify all of the lists assigned to this user
 	this_user = request.user
 	tasklists = TaskList.objects.filter(user=this_user.id)
 	
 	# Pass on all of the gathered task lists to the template
-	return render(request, "todo_app/tasklists.html", {"tasklists":tasklists, "selected_tasklist":get_selected_tasklist(request)})
+	return render(request, "todo_app/tasklists.html", {"tasklists":tasklists, "selected_tasklist":get_selected_tasklist(request), "edit_mode":request.session["edit_mode"]})
 
 
 @login_required
@@ -127,5 +143,10 @@ def get_selected_tasklist(request):
 	if "selected_tasklist_id" not in request.session or request.session["selected_tasklist_id"] == None:
 		return None
 	else:
-		return TaskList.objects.get(id=request.session["selected_tasklist_id"])
+		try: 
+			selected_tasklist = TaskList.objects.get(id=request.session["selected_tasklist_id"])
+		except ObjectDoesNotExist as e:
+			selected_tasklist = None
+		return selected_tasklist
+
 
