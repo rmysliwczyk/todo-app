@@ -1,5 +1,18 @@
 {% extends "todo_app/layout.html" %}
+{% load static %}
 {% block page-content %}
+
+<form action="{% url 'todo_app:tasks' %}" id="order-by-form" method="get">
+	<label for="order_by">order by:</label>
+	<!-- Below hidden input is used to temporarily store the selected ordering for use with JS -->
+	<input type="hidden" id="order-by-selection-temp" value="{{ tasks_order_by }}">
+	<select name="order_by" id="order-by-selection" value="">
+		<option value="name">name a-z</option>
+		<option value="name_rev">name z-a</option>
+		<option value="id">old to new</option>
+		<option value="id_rev">new to old</option>
+	</select>
+</form>
 
 <ul class="tasks-and-tasklists">
 {% for task in tasks %}
@@ -43,6 +56,6 @@
 {% else %}
 	<p> No tasks. Add one using "New task" button. </p>
 {% endif %}
-
+<script src="{% static 'todo_app/order_by.js' %}"></script>
 {% endblock %}
 

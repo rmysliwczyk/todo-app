@@ -1,5 +1,18 @@
 {% extends "todo_app/layout.html" %}
+{% load static %}
 {% block page-content %}
+
+<form action="{% url 'todo_app:tasklists' %}" id="order-by-form" method="get">
+	<label for="order_by">order by:</label>
+	<!-- Below hidden input is used to temporarily store info from the backend session for it to be used with JS -->
+	<input type="hidden" id="order-by-selection-temp" value="{{ tasklists_order_by }}">
+	<select name="order_by" id="order-by-selection">
+		<option value="name">name a-z</option>
+		<option value="name_rev">name z-a</option>
+		<option value="date">date</option>
+		<option value="date_rev">date reversed</option>
+	</select>
+</form>
 
 <ul class="tasks-and-tasklists">
 {% for tasklist in tasklists %}
@@ -7,7 +20,7 @@
 	<form action="{% url 'todo_app:tasklists' %}" id="tasklists_form" method="POST">
 		{% csrf_token %}
 		<input type="hidden" name="selected_tasklist_id" value="{{ tasklist.id }}">
-		<input type="submit" value="{{ tasklist.name }}">
+		<input type="submit" value="{{ tasklist.name }}: {{ tasklist.date }}"> 
 	</form>
 		{% if edit_mode %}
 		<form action="{% url 'todo_app:tasklists' %}" method="POST">
@@ -26,6 +39,8 @@
 		<button type="submit" class="edit-mode-button"><i class="fa-regular fa-pen-to-square fa-xl"></i></input>
 	</form>
 {% endif %}
+
+<script src="{% static 'todo_app/order_by.js' %}"></script>
 
 {% endblock %}
 
