@@ -4,23 +4,27 @@
 
 <form method="POST">
 	{% csrf_token %}
-	<ul class="authentication-form">
 		{% if form.errors %}
 		{% for field, errors in form.errors.items %}
 			{% for error in errors %}
-				<li>{{ error }}</li>
+				<div class="alert alert-danger container-sm">
+					{{ error }}
+				</div>
 			{% endfor %}
 		{% endfor %}
-		<br>
 		{% endif %}
-		<li>{{ form.username.label }}</li>
-		<li>{{ form.username }}</li>
-		<li>{{ form.password.label }}</li>
-		<li>{{ form.password }}</li>
-		<li><input type="submit" class="button" value="Login"></li>
-		<li><a href="{% url 'todo_app:register_user' %}">Create new user</a></li>
-	</ul>
-
+		<div class="mb-1">
+			<label for="id_username" class="form-label">{{ form.username.label }}</label>
+			<input id="id_username" type="text" name="username" autofocus="" autocapitalize="none" autocomplete="username" maxlength="150" required="" class="form-control">
+		</div>
+		<div class="mb-1">
+			<label for="id_password" class="form-label">{{ form.password.label }}</label>
+			<input id="id_password" type="password" name="password" autocomplete="current-password" required="" class="form-control">
+		</div>
+		<div>
+			<input type="submit" class="btn btn-primary" value="Login">
+		</div>
+		<a href="{% url 'todo_app:register_user' %}">Create new user</a>
 </form>
 
 {% endblock %}
