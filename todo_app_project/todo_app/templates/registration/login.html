@@ -2,6 +2,7 @@
 
 {% block page-content %}
 
+<div class="container">
 <form method="POST">
 	{% csrf_token %}
 		{% if form.errors %}
@@ -13,18 +14,29 @@
 			{% endfor %}
 		{% endfor %}
 		{% endif %}
-		<div class="mb-1">
-			<label for="id_username" class="form-label">{{ form.username.label }}</label>
-			<input id="id_username" type="text" name="username" autofocus="" autocapitalize="none" autocomplete="username" maxlength="150" required="" class="form-control">
+		<div class="row mb-1 justify-content-center">
+			<div class="col-auto">
+				<label for="id_username" class="form-label">{{ form.username.label }}</label>
+				<input id="id_username" type="text" name="username" autofocus="" \ 
+				autocapitalize="none" autocomplete="username" maxlength="150" required="" class="form-control">
+			</div>
 		</div>
-		<div class="mb-1">
-			<label for="id_password" class="form-label">{{ form.password.label }}</label>
-			<input id="id_password" type="password" name="password" autocomplete="current-password" required="" class="form-control">
+		<div class="row mb-1 justify-content-center">
+			<div class="col-auto">
+				<label for="id_password" class="form-label">{{ form.password.label }}</label>
+				<input id="id_password" type="password" name="password" autocomplete="current-password" required="" class="form-control">
+			</div>
 		</div>
-		<div>
-			<input type="submit" class="btn btn-primary" value="Login">
+		<div class="row justify-content-center">
+			<div class="col-auto">
+				<input type="submit" class="btn btn-primary" value="Login">
+			</div>
 		</div>
-		<a href="{% url 'todo_app:register_user' %}">Create new user</a>
+		<div class="row justify-content-center">
+			<div class="col-auto">
+				<a href="{% url 'todo_app:register_user' %}">Create new user</a>
+			</div>
+		</div>
 </form>
-
+</div>
 {% endblock %}
