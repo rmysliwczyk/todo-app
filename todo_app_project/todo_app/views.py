@@ -6,6 +6,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.core.exceptions import ObjectDoesNotExist
 from django.forms import ModelForm
+from django.http import JsonResponse, HttpResponse
+import json
 
 # CODE CLEANING TODO:
 # Selected tasklist checks are to use get_selected_tasklist()
@@ -24,6 +26,99 @@ class TaskForm(ModelForm):
 
 
 # Create your views here.
+
+# API Endpoints
+
+# From a tasklist matching the provided tasklist_id get all tasks or one task if task_id is also provided.
+
+def get_available_urls(request):
+	"""This endpoint exposes needed and available django view urls to my javascript files"""
+	available_urls = {
+		"tasklists": reverse("todo_app:tasklists")
+	}
+	print(available_urls)
+	return JsonResponse(available_urls)
+
+@login_required
+def update_task(request, task_id):
+	"""Change the state of the task and return updated task"""
+	received_task = json.loads(request.body)
+	task = Task.objects.get(id=received_task["id"])
+	if task.tasklist.user != request.user:
+		response = HttpResponse("Forbidden: You are not the owner of this tasklist")
+		response.status_code = 403
+		return response
+	else:
+		task.name = received_task["name"]
+		task.done = received_task["done"]
+		task.tasklist = TaskList.objects.get(id=received_task["tasklist_id"])
+	task.save()
+
+	# This is to get task in format that allows for JSON serialization
+	task = list(Task.objects.filter(id=task_id).values())
+
+	return JsonResponse(task, safe=False)
+
+
+@login_required
+def get_tasks(request, tasklist_id):
+	# Try to get the requested tasklist
+	try:
+		tasklist = TaskList.objects.get(id=tasklist_id)
+	except ObjectDoesNotExist:
+		response = HttpResponse("Not found: Requested tasklist was not found")
+		response.status_code = 404
+		return response
+	
+	# If successful, we get all tasks from the tasklist.
+	tasks = tasklist.tasks.values()
+
+	# Converting to list is needed for JsonResponse to serialize data.
+	tasks = list(tasks)
+
+	# If user is the owner of the tasklist send it as JsonResponse or send 403 forbidden if not
+	if tasklist.user == request.user:
+		return JsonResponse(tasks, safe=False)
+	else:
+		response = HttpResponse("Forbidden: You can't view this tasklist")
+		response.status_code = 403
+		return response
+	
+
+@login_required
+def get_task(request, task_id):
+	# Try to get the requested task
+	try:
+		task = Task.objects.get(id=task_id)
+	except ObjectDoesNotExist:
+		response = HttpResponse("Not found: Requested task was not found")
+		response.status_code = 404
+		return response
+
+	if task.tasklist.user == request.user:
+		# This is to get task in format that allows for JSON serialization
+		task = list(Task.objects.filter(id=task_id).values())
+		return JsonResponse(task, safe=False)
+	else:
+		response = HttpResponse("Forbidden: You can't view this tasklist")
+		response.status_code = 403
+		return response
+	
+
+@login_required
+def get_selected_tasklist_metadata(request):
+	"""Get current selected tasklist id from django session data"""
+	selected_tasklist_metadata = {
+		"id": None
+	}
+	if "selected_tasklist_id" not in request.session or request.session["selected_tasklist_id"] == None:
+		return JsonResponse(selected_tasklist_metadata)
+	else:
+		selected_tasklist_metadata["id"] = request.session["selected_tasklist_id"]
+		return JsonResponse(selected_tasklist_metadata)
+
+
+# End of API Endpoints
 
 # Account management views
 def register_user(request):
