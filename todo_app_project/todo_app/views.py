@@ -53,6 +53,7 @@ def tasklist(request, tasklist_id):
 		
 		# If successful, we get all tasks from the tasklist.
 		tasks = tasklist.tasks.values()
+		tasks = order_by(tasks, request.session["tasks_order_by"])
 
 		# Converting to list is needed for JsonResponse to serialize data.
 		tasks = list(tasks)
@@ -85,13 +86,17 @@ def task(request, task_id):
 			response = HttpResponse("Forbidden: You can't view this tasklist")
 			response.status_code = 403
 			return response
-	elif request.method == "POST":
-		"""Change the state of the task and return updated task"""
+	elif request.method == "PUT":
+		"""Update the state of the task and return updated task"""
 		received_task = json.loads(request.body)
 		task = Task.objects.get(id=received_task["id"])
 		if task.tasklist.user != request.user:
 			response = HttpResponse("Forbidden: You are not the owner of this tasklist")
 			response.status_code = 403
+			return response
+		elif received_task["id"] != task_id:
+			response = HttpResponse("Bad request: The task id in json body doesn't match the task id in URL")
+			response.status_code = 400
 			return response
 		else:
 			task.name = received_task["name"]
@@ -103,6 +108,18 @@ def task(request, task_id):
 		task = list(Task.objects.filter(id=task_id).values())
 
 		return JsonResponse(task, safe=False)
+	elif request.method == "DELETE":
+		"""Remove the task with task_id"""
+		task = Task.objects.get(id=task_id)
+		if task.tasklist.user != request.user:
+			response = HttpResponse("Forbidden: You are not the owner of this tasklist")
+			response.status_code = 403
+			return response
+		else:
+			task.delete()
+		response = HttpResponse()
+		response.status_code = 200
+		return response
 	
 
 @login_required

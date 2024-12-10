@@ -19,7 +19,7 @@ async function updateTask(task) {
         let url = `api/task/${task.id}`;
         const response = await fetch(url, {
             "headers": {"Content-Type": "application/json", "X-CSRFToken": csrftoken},
-            "method": "POST",
+            "method": "PUT",
             "body": JSON.stringify(task)
         });
         if(!response.ok) {
@@ -72,6 +72,22 @@ async function getTask(taskId) {
     }
 }
 
+async function deleteTask(taskId) {
+    try {
+        let url = `api/task/${taskId}`;
+        const response = await fetch(url, {
+            "headers": {"Content-Type": "application/json", "X-CSRFToken": csrftoken},
+            "method": "DELETE"
+        });
+
+        document.querySelector(`#task-id-${taskId}`).remove();
+
+    }
+    catch(error) {
+        console.log(error.message)
+    }
+}
+
 async function getAllTasks(tasklistId) {
     try {
         let url = `api/tasklist/${tasklistId}`;
@@ -118,20 +134,34 @@ async function showTasks() {
         const taskLi = document.createElement("li");
         const taskLiCheckbox = document.createElement("input");
         const taskLiLabel = document.createElement("label");
-        
+        const taskLiRemoveButton = document.createElement("button");
+        const taskLiRemoveButtonIcon = document.createElement("i");
+
+
+        taskLi.setAttribute("id", `task-id-${task.id}`);
         taskLiCheckbox.setAttribute("type", "checkbox");
         task.done ? taskLiCheckbox.setAttribute("checked", "checked") : taskLiCheckbox.removeAttribute("checked");
         taskLiCheckbox.setAttribute("id", `task-checkbox-id-${task.id}`);
         taskLiLabel.setAttribute("for", `task-checkbox-id-${task.id}`);
         taskLiLabel.innerHTML = task.name;
+        taskLiRemoveButton.setAttribute("id", `task-remove-button-id-${task.id}`);
+        taskLiRemoveButton.setAttribute("class", "remove-button");
+        taskLiRemoveButtonIcon.setAttribute("class", "fa-solid fa-xmark");
 
         const taskId = task.id
         taskLiCheckbox.addEventListener("click", function() {
             toggleTaskDoneStatus(taskId);
         });
 
+        taskLiRemoveButton.addEventListener("click", function() {
+            deleteTask(taskId);
+        });
+
+        taskLiRemoveButton.append(taskLiRemoveButtonIcon);
+
         taskLi.append(taskLiCheckbox);
         taskLi.append(taskLiLabel);
+        taskLi.append(taskLiRemoveButton);
         tasksUl.append(taskLi);
     }
 }
