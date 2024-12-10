@@ -39,70 +39,70 @@ def get_available_urls(request):
 	print(available_urls)
 	return JsonResponse(available_urls)
 
-@login_required
-def update_task(request, task_id):
-	"""Change the state of the task and return updated task"""
-	received_task = json.loads(request.body)
-	task = Task.objects.get(id=received_task["id"])
-	if task.tasklist.user != request.user:
-		response = HttpResponse("Forbidden: You are not the owner of this tasklist")
-		response.status_code = 403
-		return response
-	else:
-		task.name = received_task["name"]
-		task.done = received_task["done"]
-		task.tasklist = TaskList.objects.get(id=received_task["tasklist_id"])
-	task.save()
-
-	# This is to get task in format that allows for JSON serialization
-	task = list(Task.objects.filter(id=task_id).values())
-
-	return JsonResponse(task, safe=False)
-
 
 @login_required
-def get_tasks(request, tasklist_id):
-	# Try to get the requested tasklist
-	try:
-		tasklist = TaskList.objects.get(id=tasklist_id)
-	except ObjectDoesNotExist:
-		response = HttpResponse("Not found: Requested tasklist was not found")
-		response.status_code = 404
-		return response
-	
-	# If successful, we get all tasks from the tasklist.
-	tasks = tasklist.tasks.values()
+def tasklist(request, tasklist_id):
+	if request.method == "GET":
+		# Try to get the requested tasklist
+		try:
+			tasklist = TaskList.objects.get(id=tasklist_id)
+		except ObjectDoesNotExist:
+			response = HttpResponse("Not found: Requested tasklist was not found")
+			response.status_code = 404
+			return response
+		
+		# If successful, we get all tasks from the tasklist.
+		tasks = tasklist.tasks.values()
 
-	# Converting to list is needed for JsonResponse to serialize data.
-	tasks = list(tasks)
+		# Converting to list is needed for JsonResponse to serialize data.
+		tasks = list(tasks)
 
-	# If user is the owner of the tasklist send it as JsonResponse or send 403 forbidden if not
-	if tasklist.user == request.user:
-		return JsonResponse(tasks, safe=False)
-	else:
-		response = HttpResponse("Forbidden: You can't view this tasklist")
-		response.status_code = 403
-		return response
+		# If user is the owner of the tasklist send it as JsonResponse or send 403 forbidden if not
+		if tasklist.user == request.user:
+			return JsonResponse(tasks, safe=False)
+		else:
+			response = HttpResponse("Forbidden: You can't view this tasklist")
+			response.status_code = 403
+			return response
 	
 
 @login_required
-def get_task(request, task_id):
-	# Try to get the requested task
-	try:
-		task = Task.objects.get(id=task_id)
-	except ObjectDoesNotExist:
-		response = HttpResponse("Not found: Requested task was not found")
-		response.status_code = 404
-		return response
+def task(request, task_id):
+	if request.method == "GET":
+		# Try to get the requested task
+		try:
+			task = Task.objects.get(id=task_id)
+		except ObjectDoesNotExist:
+			response = HttpResponse("Not found: Requested task was not found")
+			response.status_code = 404
+			return response
 
-	if task.tasklist.user == request.user:
+		if task.tasklist.user == request.user:
+			# This is to get task in format that allows for JSON serialization
+			task = list(Task.objects.filter(id=task_id).values())
+			return JsonResponse(task, safe=False)
+		else:
+			response = HttpResponse("Forbidden: You can't view this tasklist")
+			response.status_code = 403
+			return response
+	elif request.method == "POST":
+		"""Change the state of the task and return updated task"""
+		received_task = json.loads(request.body)
+		task = Task.objects.get(id=received_task["id"])
+		if task.tasklist.user != request.user:
+			response = HttpResponse("Forbidden: You are not the owner of this tasklist")
+			response.status_code = 403
+			return response
+		else:
+			task.name = received_task["name"]
+			task.done = received_task["done"]
+			task.tasklist = TaskList.objects.get(id=received_task["tasklist_id"])
+		task.save()
+
 		# This is to get task in format that allows for JSON serialization
 		task = list(Task.objects.filter(id=task_id).values())
+
 		return JsonResponse(task, safe=False)
-	else:
-		response = HttpResponse("Forbidden: You can't view this tasklist")
-		response.status_code = 403
-		return response
 	
 
 @login_required

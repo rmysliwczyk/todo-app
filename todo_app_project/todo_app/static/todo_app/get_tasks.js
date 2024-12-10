@@ -16,7 +16,7 @@ async function getAvailableUrls() {
 
 async function updateTask(task) {
     try {
-        let url = `update_task/${task.id}`;
+        let url = `api/task/${task.id}`;
         const response = await fetch(url, {
             "headers": {"Content-Type": "application/json", "X-CSRFToken": csrftoken},
             "method": "POST",
@@ -58,7 +58,7 @@ async function toggleTaskDoneStatus(taskId) {
 
 async function getTask(taskId) {
     try {
-        let url = `get_task/${taskId}`;
+        let url = `api/task/${taskId}`;
         const response = await fetch(url);
         if(!response.ok) {
             throw new Error(`Response status: ${response.status}`);
@@ -74,7 +74,7 @@ async function getTask(taskId) {
 
 async function getAllTasks(tasklistId) {
     try {
-        let url = `get_tasks/${tasklistId}`;
+        let url = `api/tasklist/${tasklistId}`;
         const response = await fetch(url);
         if(!response.ok) {
             throw new Error(`Response status: ${response.status}`);
