@@ -2,7 +2,7 @@
 {% load static %}
 {% block page-content %}
 
-<form action="{% url 'todo_app:tasks' %}" id="order-by-form" method="get">
+<form action="{% url 'todo_app:tasks_page' %}" id="order-by-form" method="get">
 	<label for="order_by">order by:</label>
 	<!-- Below hidden input is used to temporarily store the selected ordering for use with JS -->
 	<input type="hidden" id="order-by-selection-temp" value="{{ tasks_order_by }}">
