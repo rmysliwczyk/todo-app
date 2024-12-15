@@ -2,7 +2,7 @@
 {% load static %}
 {% block page-content %}
 
-<form action="{% url 'todo_app:tasklists' %}" id="order-by-form" method="get">
+<form action="{% url 'todo_app:tasklists_page' %}" id="order-by-form" method="get">
 	<label for="order_by">order by:</label>
 	<!-- Below hidden input is used to temporarily store info from the backend session for it to be used with JS -->
 	<input type="hidden" id="order-by-selection-temp" value="{{ tasklists_order_by }}">
@@ -14,7 +14,8 @@
 	</select>
 </form>
 
-<ul class="tasks-and-tasklists">
+<ul class="tasks-and-tasklists" id="tasklists-ul">
+<!--
 {% for tasklist in tasklists %}
 	<li>
 	<form action="{% url 'todo_app:tasklists' %}" id="tasklists_form" method="POST">
@@ -31,6 +32,7 @@
 	{% endif %}
 	</li>
 {% endfor %}
+-->
 </ul>
 
 {% if tasklists.exists %}
@@ -39,8 +41,9 @@
 		<button type="submit" class="edit-mode-button"><i class="fa-regular fa-pen-to-square fa-xl"></i></input>
 	</form>
 {% endif %}
-
+<script>const csrftoken = "{{ csrf_token }}"</script>
 <script src="{% static 'todo_app/order_by.js' %}"></script>
+<script src="{% static 'todo_app/tasklists.js' %}"></script>
 
 {% endblock %}
 

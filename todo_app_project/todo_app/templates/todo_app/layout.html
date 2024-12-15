@@ -1,41 +1,42 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-        <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="{% static 'todo_app/styles.css' %}">
-	<script src="https://kit.fontawesome.com/bdc67f3bad.js" crossorigin="anonymous"></script>	
-        <title>Todo-app - TODO</title>
+	<script src="https://kit.fontawesome.com/bdc67f3bad.js" crossorigin="anonymous"></script>
+	<title>Todo-app - TODO</title>
 </head>
+
 <body>
-<div class="grid-container">
-        <div class="navbar">
-                <h1 id="app_title_navbar">Todo app</h1>
-                <ul class="navbar-buttons">
-			<li><a class="button" href="{% url 'todo_app:tasklists' %}">Tasklist</a></li>
-			<li><a class="button" href="{% url 'todo_app:tasks_page' %}">Tasks</a></li>
-			<li><a class="button" href="{% url 'todo_app:logout' %}">Logout</a></li>
-		</ul>
-		<ul class="navbar-buttons">
-			<li><a class="button" href="{% url 'todo_app:tasklists_new' %}">New tasklist</a></li>
-			<li><a class="button" href="{% url 'todo_app:tasks_new' %}">New task</a></li>
-                </ul>
-        </div>
-        <div class="page-content">
-		<div class="selected-tasklist-info">
-			{% if selected_tasklist %}
-				Selected tasklist: {{selected_tasklist.name}}
-			{% else %}
-				No selected tasklist. Please select or create one.
-			{% endif %}
+	<div class="grid-container">
+		<div class="navbar">
+			<h1 id="app_title_navbar">Todo app</h1>
+			<ul class="navbar-buttons">
+				<li><a class="button" href="{% url 'todo_app:tasklists_page' %}">Tasklists</a></li>
+				<li><a class="button" href="{% url 'todo_app:tasks_page' %}">Tasks</a></li>
+				<li><a class="button" href="{% url 'todo_app:logout' %}">Logout</a></li>
+				<li><a class="button" href="{% url 'todo_app:tasklists_new' %}">New tasklist</a></li>
+				<li><a class="button" href="{% url 'todo_app:tasks_new' %}">New task</a></li>
+			</ul>
 		</div>
-		
-		{% block page-content %}
-		{% endblock %}
-        </div>
-	<div class="footer">
-		Rafał Myśliwczyk: <a href="https://github.com/rmysliwczyk">Github</a>
+		<div class="page-content">
+			<div class="selected-tasklist-info">
+				{% if selected_tasklist %}
+				Selected tasklist: {{selected_tasklist.name}}
+				{% else %}
+				No selected tasklist. Please select or create one.
+				{% endif %}
+			</div>
+
+			{% block page-content %}
+			{% endblock %}
+		</div>
+		<div class="footer">
+			Rafał Myśliwczyk: <a href="https://github.com/rmysliwczyk">Github</a>
+		</div>
 	</div>
 </body>
-</html>
 
+</html>

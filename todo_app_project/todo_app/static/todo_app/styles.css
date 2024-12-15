@@ -3,7 +3,10 @@
 body {
 	background-color: #DDE6ED;
 	color: #27374D;
-	margin: 0px;
+	margin-top: 0px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
 	padding: 0px;
 	font-family: sans-serif;
 }
@@ -19,7 +22,7 @@ body {
 	color: #DDE6ED;
 	margin-top: 9px;
 	margin-bottom: 5px;
-	margin-left: 10px;
+	text-align: center;
 }
 
 .navbar {
@@ -57,7 +60,10 @@ a:active {
 }
 
 ul.navbar-buttons {
-	margin-top: 15px;	
+	margin-top: 15px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
 }
 
 .navbar-buttons li {
@@ -118,6 +124,9 @@ ul.navbar-buttons {
 .selected-tasklist-info {
 	color: #526D82;
 	width: fit-content;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
 	padding: 5px;
 }
 
@@ -125,10 +134,14 @@ ul.tasks-and-tasklists {
 }
 
 .tasks-and-tasklists li {
-	list-style-type: disclosure-closed;
 	font-size: 1.1em;
 	margin-top: 20px;
 	margin-left: 5px;
+}
+
+#tasklists-ul li:hover {
+	cursor: pointer;
+	color: #526D82;
 }
 
 .tasks-and-tasklists input[type=submit] {
