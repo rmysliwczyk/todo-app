@@ -35,12 +35,6 @@
 -->
 </ul>
 
-{% if tasklists.exists %}
-	<form method="GET">
-		<input type="hidden" name="edit_mode" value="on">
-		<button type="submit" class="edit-mode-button"><i class="fa-regular fa-pen-to-square fa-xl"></i></input>
-	</form>
-{% endif %}
 <script>const csrftoken = "{{ csrf_token }}"</script>
 <script src="{% static 'todo_app/order_by.js' %}"></script>
 <script src="{% static 'todo_app/tasklists.js' %}"></script>

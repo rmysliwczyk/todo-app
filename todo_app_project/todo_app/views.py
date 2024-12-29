@@ -102,7 +102,7 @@ def tasklists(request, tasklist_id=None):
 			else:
 				tasklist.name = received_tasklist["name"]
 				tasklist.date = received_tasklist["date"]
-				tasklist.tasks = Task.objects.filter(tasklist=tasklist)
+				tasklist.tasks.set(Task.objects.filter(tasklist=tasklist))
 			tasklist.save()
 
 			# This is to get tasklist in format that allows for JSON serialization
@@ -117,6 +117,9 @@ def tasklists(request, tasklist_id=None):
 				response.status_code = 403
 				return response
 			else:
+				if "selected_tasklist_id" in request.session and request.session["selected_tasklist_id"] != None:
+					if tasklist_id == request.session["selected_tasklist_id"]:
+						request.session["selected_tasklist_id"] = None
 				tasklist.delete()
 			response = HttpResponse()
 			response.status_code = 200
@@ -221,6 +224,7 @@ def get_selected_tasklist_metadata(request):
 	if "selected_tasklist_id" not in request.session or request.session["selected_tasklist_id"] == None:
 		return JsonResponse(selected_tasklist_metadata)
 	else:
+		print(request.session["selected_tasklist_id"])
 		tasklist = TaskList.objects.get(id=request.session["selected_tasklist_id"])
 		selected_tasklist_metadata["id"] = tasklist.id
 		selected_tasklist_metadata["name"] = tasklist.name

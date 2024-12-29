@@ -61,14 +61,17 @@ a:active {
 
 ul.navbar-buttons {
 	margin-top: 15px;
+	line-height: 30px;
 	margin-left: auto;
 	margin-right: auto;
 	text-align: center;
 }
 
 .navbar-buttons li {
-	display: inline-block;
-	margin-left: 1px;
+	display: contents;
+	white-space: nowrap;
+	margin-top: 15px;
+	margin-bottom: 15px;
 }
 
 .navbar-buttons .button {
@@ -79,12 +82,13 @@ ul.navbar-buttons {
 	background-color: #526D82;
 	color: #DDE6ED;
 	text-decoration: none;
-	padding: 5px;
+	padding: 2px;
 }
 
 .button:hover {
 	color: #27374D;
 	cursor: pointer;
+	font-size: 1.1em;
 }
 
 .edit-mode-button {
@@ -113,11 +117,30 @@ ul.navbar-buttons {
 
 	/* Makes it so only the icon is clickable */
 	margin-top: 20px;
+	margin-left: 10px;
 	width: 0px;
 	height: 0px;
 }
 
 .remove-button:hover {
+	color: #27374D;
+}
+
+.edit-button {
+	background: none;
+	color: #526D82;
+	display: inline;
+	border: none;
+	cursor: pointer;
+
+	/* Makes it so only the icon is clickable */
+	margin-top: 20px;
+	margin-left: 10px;
+	width: 0px;
+	height: 0px;
+}
+
+.edit-button:hover {
 	color: #27374D;
 }
 
@@ -130,16 +153,42 @@ ul.navbar-buttons {
 	padding: 5px;
 }
 
-ul.tasks-and-tasklists {
+@keyframes listElementsAppear {
+	0% {
+		font-size: 1em;
+		margin-top: 0;
+		opacity: 0;
+	}
+
+	100% {
+		font-size: 1.3em;
+		margin-top: 20px;
+		opacity: 1;
+	}
 }
 
 .tasks-and-tasklists li {
-	font-size: 1.1em;
+	animation-name: listElementsAppear;
+	animation-duration: 1s;
+	animation-fill-mode: forwards;
+	font-size: 1.3em;
 	margin-top: 20px;
 	margin-left: 5px;
 }
 
-#tasklists-ul li:hover {
+#tasklists-ul button:hover {
+	cursor: pointer;
+	color: #27374D;
+}
+
+#tasklists-ul label:hover {
+	font-size: 1.1em;
+	cursor: pointer;
+	color: #526D82;
+}
+
+#tasks-ul label:hover {
+	font-size: 1.1em;
 	cursor: pointer;
 	color: #526D82;
 }
@@ -159,21 +208,12 @@ ul.tasks-and-tasklists {
 	color: #526D82;
 }
 
-.task {
-}
-
 .task-done {
 	text-decoration: line-through;
 }
 
-ul.authentication-form {
-}
-
 .authentication-form li {
 	margin-top: 5px;
-}
-
-ul.generic-form {
 }
 
 .generic-form li {

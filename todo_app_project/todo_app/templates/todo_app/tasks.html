@@ -17,15 +17,7 @@
 <ul class="tasks-and-tasklists" id="tasks-ul">
 </ul>
 
-{% if selected_tasklist.tasks.exists %}
-	<form method="GET">
-		<input type="hidden" name="edit_mode" value="on">
-		<button type="submit" class="edit-mode-button"><i class="fa-regular fa-pen-to-square fa-xl"></i></input>
-	</form>
-{% else %}
-	<p> No tasks. Add one using "New task" button. </p>
-{% endif %}
 <script>const csrftoken = "{{ csrf_token }}"</script>
 <script src="{% static 'todo_app/order_by.js' %}"></script>
-<script src="{% static 'todo_app/get_tasks.js' %}"></script>
+<script src="{% static 'todo_app/tasks.js' %}"></script>
 {% endblock %}

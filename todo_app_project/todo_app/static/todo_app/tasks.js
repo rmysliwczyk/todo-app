@@ -35,6 +35,8 @@ async function updateTask(task) {
         } else {
             taskCheckbox.removeAttribute("checked");
         }
+
+        return updatedTask[0];
     }
     catch(error) {
         console.log(error.message)
@@ -126,6 +128,41 @@ async function getSelectedTasklistMetadata() {
     }
 }
 
+async function editTask(taskId, oldEventListener) {
+    const taskEditedLi = document.querySelector(`#task-id-${taskId}`);
+    const taskEditedLabel = taskEditedLi.children.item(1)
+    const taskEditedEditButton = taskEditedLi.children.item(3);
+    const taskEditedInput = document.createElement("input");
+    taskEditedInput.value = taskEditedLabel.innerHTML;
+    taskEditedInput.setAttribute("id", `task-edit-input-id-${taskId}`);
+    taskEditedLi.replaceChild(taskEditedInput, taskEditedLabel);
+
+    taskEditedEditButton.removeEventListener("click", oldEventListener);
+
+    async function clickEventHandler()
+    {
+        const taskEditedLi = document.querySelector(`#task-id-${taskId}`);
+        const taskEditedInput = document.querySelector(`#task-edit-input-id-${taskId}`);
+        const taskEditedLabel = document.createElement("label");
+        let task = await getTask(taskId);
+        task.name = taskEditedInput.value;
+        let updatedtask = await updateTask(task);
+        taskEditedLabel.innerHTML = `${updatedtask.name}`;
+        taskEditedLi.replaceChild(taskEditedLabel, taskEditedInput);
+        taskEditedEditButton.addEventListener("click", oldEventListener);
+        taskEditedEditButton.removeEventListener("click", clickEventHandler);
+    }
+    
+    taskEditedEditButton.addEventListener("click", clickEventHandler);
+
+    taskEditedInput.addEventListener("keypress", function eventHandler(e){
+        if(e.key === "Enter")
+        {
+            clickEventHandler();
+        }
+    });
+}
+
 async function showTasks() {
     const tasksUl = document.querySelector("#tasks-ul");
     const selectedTasklistMetadata = await getSelectedTasklistMetadata();
@@ -136,6 +173,8 @@ async function showTasks() {
         const taskLiLabel = document.createElement("label");
         const taskLiRemoveButton = document.createElement("button");
         const taskLiRemoveButtonIcon = document.createElement("i");
+        const taskLiEditButton = document.createElement("button");
+        const taskLiEditButtonIcon = document.createElement("i");
 
 
         taskLi.setAttribute("id", `task-id-${task.id}`);
@@ -147,6 +186,10 @@ async function showTasks() {
         taskLiRemoveButton.setAttribute("id", `task-remove-button-id-${task.id}`);
         taskLiRemoveButton.setAttribute("class", "remove-button");
         taskLiRemoveButtonIcon.setAttribute("class", "fa-solid fa-xmark");
+        taskLiEditButton.setAttribute("id", `task-edit-button-id-${task.id}`);
+        taskLiEditButton.setAttribute("class", "edit-button");
+        taskLiEditButtonIcon.setAttribute("class", "fa-regular fa-pen-to-square");
+        
 
         const taskId = task.id
         taskLiCheckbox.addEventListener("click", function() {
@@ -157,11 +200,17 @@ async function showTasks() {
             deleteTask(taskId);
         });
 
+        taskLiEditButton.addEventListener("click", function eventHandler() {
+            editTask(taskId, eventHandler);
+        })
+
         taskLiRemoveButton.append(taskLiRemoveButtonIcon);
+        taskLiEditButton.append(taskLiEditButtonIcon);
 
         taskLi.append(taskLiCheckbox);
         taskLi.append(taskLiLabel);
         taskLi.append(taskLiRemoveButton);
+        taskLi.append(taskLiEditButton);
         tasksUl.append(taskLi);
     }
 }
