@@ -224,7 +224,6 @@ def get_selected_tasklist_metadata(request):
 	if "selected_tasklist_id" not in request.session or request.session["selected_tasklist_id"] == None:
 		return JsonResponse(selected_tasklist_metadata)
 	else:
-		print(request.session["selected_tasklist_id"])
 		tasklist = TaskList.objects.get(id=request.session["selected_tasklist_id"])
 		selected_tasklist_metadata["id"] = tasklist.id
 		selected_tasklist_metadata["name"] = tasklist.name
@@ -253,31 +252,12 @@ def error_message(request, message):
 
 @login_required
 def tasks_page(request):
-	# Get all of the tasks belonging to the selected tasklist
-	tasks = Task.objects.filter(tasklist=get_selected_tasklist(request))
-	
-	# Default is not edit mode
-	request.session["edit_mode"] = False;
-
 	if "tasks_order_by" not in request.session:
 		request.session["tasks_order_by"] = "id"
 
-	# This form submitted when checkbox next to a task has changed value
-	if request.method == "POST":
-		if "remove_form" in request.POST:
-			task_to_remove = Task.objects.get(id=request.POST["task_id"])
-			task_to_remove.delete()
-		elif "change_form" in request.POST:
-			task = Task.objects.get(id=request.POST["changed_task_id"])
-			task.done = request.POST["changed_task_new_value"]
-			task.save()
-	else:
-		if "edit_mode" in request.GET and request.GET["edit_mode"] == "on":
-			request.session["edit_mode"] = True;
-		if "order_by" in request.GET:
-			request.session["tasks_order_by"] = request.GET["order_by"]
-	
-	tasks = order_by(tasks, request.session["tasks_order_by"])
+	# This form submitted when ordering is to be changed
+	if "order_by" in request.GET:
+		request.session["tasks_order_by"] = request.GET["order_by"]
 
 	# If no tasklist selected, nothing to show, so redirect to tasklist selection 
 	if "selected_tasklist_id" not in request.session or request.session["selected_tasklist_id"] == None:
@@ -285,7 +265,7 @@ def tasks_page(request):
 
 
 	# Pass on all of the tasks to the template
-	return render(request, "todo_app/tasks.html", {"tasks":tasks, "selected_tasklist":get_selected_tasklist(request), "edit_mode":request.session["edit_mode"], "tasks_order_by":request.session["tasks_order_by"]})
+	return render(request, "todo_app/tasks.html", {"tasks_order_by":request.session["tasks_order_by"], "selected_tasklist":get_selected_tasklist(request)})
 
 
 @login_required 
@@ -312,13 +292,6 @@ def tasks_new(request):
 
 @login_required
 def tasklists_page(request):
-	# Identify all of the lists assigned to this user
-	this_user = request.user
-	tasklists = TaskList.objects.filter(user=this_user.id)
-
-	#Start in regular mode, not edit mode
-	request.session["edit_mode"] = False
-	
 	if "tasklists_order_by" not in request.session:
 		request.session["tasklists_order_by"] = "name"	
 
@@ -327,20 +300,13 @@ def tasklists_page(request):
 		request.session["selected_tasklist_id"] = None	
 
 	if request.method == "POST":
-		if "remove_form" in request.POST:
-			tasklist_to_remove = TaskList.objects.get(id=request.POST["tasklist_id"])
-			tasklist_to_remove.delete()
-		else:
-			request.session["selected_tasklist_id"] = request.POST["selected_tasklist_id"]
-			return redirect(reverse("todo_app:tasks_page"))	
+		request.session["selected_tasklist_id"] = request.POST["selected_tasklist_id"]
+		return redirect(reverse("todo_app:tasks_page"))	
 	else:
-		if "edit_mode" in request.GET and request.GET["edit_mode"] == "on":
-			request.session["edit_mode"] = True;
 		if "order_by" in request.GET:
 			request.session["tasklists_order_by"] = request.GET["order_by"]	
 
-	tasklists = order_by(tasklists, request.session["tasklists_order_by"])
-	return render(request, "todo_app/tasklists.html", {"tasklists":tasklists, "selected_tasklist":get_selected_tasklist(request), "edit_mode":request.session["edit_mode"], "tasklists_order_by":request.session["tasklists_order_by"]})
+	return render(request, "todo_app/tasklists.html", {"tasklists_order_by":request.session["tasklists_order_by"], "selected_tasklist":get_selected_tasklist(request)})
 
 
 @login_required
