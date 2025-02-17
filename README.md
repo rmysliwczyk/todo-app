@@ -1,5 +1,6 @@
-# Todo app (w rozwoju):
-W obecnym stadium rozwoju dostępna do potestowania pod adresem [mysliwczykrafal.pl/todo_app/](http://www.mysliwczykrafal.pl/todo_app/).
+# Todo app:
+**This README needs an update. You can test the app [here](https://mysliwczykrafal.webredirect.org/todo_app/)
+
 ## Tech stack:
 * Django
 * Nginx
