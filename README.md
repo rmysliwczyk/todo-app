@@ -1,5 +1,5 @@
 # Todo app:
-**This README needs an update. You can test the app [here](https://mysliwczykrafal.webredirect.org/todo_app/)
+**This README needs an update. You can test the app [here](https://mysliwczykrafal.webredirect.org/todo_app/)**
 
 ## Tech stack:
 * Django
