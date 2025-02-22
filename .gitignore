@@ -1,1 +1,7 @@
 ./todo_app_project/todo_app_project/static/*
+bin
+lib
+lib64
+pyvenv.cfg
+db.sqlite3
+__pycache__
