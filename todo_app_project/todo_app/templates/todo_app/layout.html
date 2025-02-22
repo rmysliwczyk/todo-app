@@ -16,7 +16,10 @@
 			<ul class="navbar-buttons">
 				<li><a class="button" href="{% url 'todo_app:tasklists_page' %}">Tasklists</a></li>
 				<li><a class="button" href="{% url 'todo_app:tasks_page' %}">Tasks</a></li>
-				<li><a class="button" href="{% url 'todo_app:logout' %}">Logout</a></li>
+				<li><form method="POST" id="logout" action="{% url 'todo_app:logout' %}">
+					{% csrf_token %}
+					<a href="#" class="button" onclick="document.querySelector('#logout').submit();">Log out</a>
+				</form></li>
 				<li><a class="button" href="{% url 'todo_app:tasklists_new' %}">New tasklist</a></li>
 				<li><a class="button" href="{% url 'todo_app:tasks_new' %}">New task</a></li>
 			</ul>
