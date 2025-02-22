@@ -3,6 +3,7 @@ bin
 lib
 lib64
 pyvenv.cfg
-db.sqlite3
+include
 __pycache__
 secret_key.txt
+db.sqlite3
